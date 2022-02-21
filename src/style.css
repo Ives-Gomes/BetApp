@@ -70,6 +70,10 @@ header a {
   padding: 50px 100px;
 }
 
+.section-article {
+  max-width: 800px;
+}
+
 .section-header p {
   font-weight: 400;
 
@@ -137,6 +141,11 @@ section strong {
 
 .section-footer p:not(:first-child) {
   margin-top: 10px;
+}
+
+article {
+  width: 100%;
+  min-width: 600px;
 }
 
 .article-content {
