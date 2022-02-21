@@ -1,0 +1,426 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f7f7f7;
+  color: #868686;
+
+  font-family: Helvetica, sans-serif;
+  font-style: italic;
+}
+
+button {
+  font-style: italic;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  height: 50px;
+
+  color: #707070;
+  border: 2px solid #ebebeb;
+  border-style: none none solid none;
+
+  padding: 0 50px;
+}
+
+.header-tag {
+  width: 75px;
+  height: 6px;
+
+  position: absolute;
+  top: 48px;
+  left: 46px;
+
+  background-color: #b5c401;
+  border-radius: 6px;
+}
+
+.header-div,
+.logout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-content {
+  margin-right: 50px;
+}
+
+header a {
+  text-decoration: none;
+  color: #707070;
+  font-size: 14px;
+}
+
+.svg-logout {
+  margin-left: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+
+  padding: 50px 100px;
+}
+
+.section-header p {
+  font-weight: 400;
+
+  margin-top: 30px;
+}
+
+section strong {
+  color: #707070;
+}
+
+.section-buttons {
+  margin-top: 20px;
+}
+
+.section-buttons button {
+  width: 120px;
+  height: 30px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border-radius: 50px;
+
+  cursor: pointer;
+
+  margin-right: 20px;
+}
+
+.section-buttons .lotofacil {
+  background-color: #fff;
+  color: #7f3992;
+  border: 2px solid #7f3992;
+}
+
+.section-buttons .lotofacil:focus {
+  background-color: #7f3992;
+  color: #fff;
+}
+
+.section-buttons .megasena {
+  background-color: #fff;
+  color: #01ac66;
+  border: 2px solid #01ac66;
+}
+
+.section-buttons .megasena:focus {
+  background-color: #01ac66;
+  color: #fff;
+}
+
+.section-buttons .lotomania {
+  background-color: #fff;
+  color: #f79c31;
+  border: 2px solid #f79c31;
+}
+
+.section-buttons .lotomania:focus {
+  background-color: #f79c31;
+  color: #fff;
+}
+
+.section-footer {
+  margin-top: 30px;
+}
+
+.article-content {
+  margin-top: 20px;
+}
+
+.article-content button {
+  width: 50px;
+  height: 50px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 50px;
+
+  cursor: pointer;
+
+  background-color: #adc0c4;
+  color: #fff;
+
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.article-content button:focus {
+  background-color: #707070;
+  color: #fff;
+}
+
+.article-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 30px;
+}
+
+.article-game-actions button {
+  width: 150px;
+  height: 50px;
+
+  color: #27c383;
+  background-color: #fff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border: 1px solid #27c383;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  margin-right: 20px;
+}
+
+.article-game-actions button:hover {
+  background-color: #27c3821e;
+}
+
+.article-cart {
+  width: 150px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #fff;
+  background-color: #27c383;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  margin-right: 20px;
+}
+
+.article-cart:hover {
+  background-color: #27c382da;
+}
+
+.article-footer button span {
+  margin-right: 10px;
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 300px;
+  height: 100%;
+
+  background-color: #fff;
+
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+
+  margin-left: 20px;
+}
+
+.aside-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 300px;
+  height: 100%;
+
+  padding: 20px;
+}
+
+.aside-content-header h3,
+.aside-content h4 {
+  font-size: 25px;
+}
+
+.aside-content-header h3,
+.aside-content-header strong {
+  color: #707070;
+}
+
+.aside-cart-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 30px;
+}
+
+.aside-cart-item button {
+  width: 30px;
+
+  color: #888888;
+  background-color: #fff;
+  border: none;
+
+  cursor: pointer;
+}
+
+.aside-cart-item button span {
+  font-size: 30px;
+}
+
+.aside-cart-item-divisor {
+  width: 5px;
+  height: 100px;
+
+  background-color: #7f3992;
+
+  border-radius: 100px 0px 0px 100px;
+}
+
+.aside-cart-item-numbers {
+  font-size: 14px;
+
+  margin-left: 5px;
+}
+
+.aside-cart-item-numbers p {
+  font-weight: 600;
+}
+
+.aside-cart-item-game {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 10px;
+}
+
+.aside-cart-item-game p {
+  color: #7f3992;
+}
+
+.aside-cart-item-game span {
+  margin-left: 20px;
+}
+
+.aside-content h4 {
+  font-weight: 400;
+}
+
+.aside-save-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 80px;
+
+  color: #27c383;
+  font-size: 30px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  border: 1px solid #e2e2e2;
+  border-style: solid none none none;
+}
+
+.aside-save-button:hover {
+  background-color: #e2e2e2cb;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+
+  font-size: 12px;
+  color: #707070;
+  border: 2px solid #ebebeb;
+  border-style: solid none none none;
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+
+  aside {
+    margin-top: 20px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 425px) {
+  header {
+    padding: 0 5px;
+  }
+
+  .header-div,
+  .header-div a {
+    font-size: 10px;
+  }
+
+  .header-content {
+    margin-right: 20px;
+  }
+
+  .header-tag {
+    width: 40px;
+
+    left: 5px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .section-buttons button:not(:first-child) {
+    margin-top: 20px;
+  }
+
+  .article-footer {
+    flex-direction: column;
+  }
+
+  .article-game-actions {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .article-game-actions button {
+    width: 100%;
+
+    margin-top: 20px;
+    margin-right: 0;
+  }
+
+  .article-cart {
+    width: 100%;
+    margin-top: 20px;
+    margin-right: 0;
+  }
+}
