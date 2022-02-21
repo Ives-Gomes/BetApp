@@ -135,6 +135,10 @@ section strong {
   margin-top: 30px;
 }
 
+.section-footer p:not(:first-child) {
+  margin-top: 10px;
+}
+
 .article-content {
   margin-top: 20px;
 }
