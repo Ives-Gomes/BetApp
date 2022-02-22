@@ -113,6 +113,7 @@
             $icon.textContent = 'delete';
 
             $button.appendChild($icon);
+            app.listenDelete($button);
 
             var $divisor = doc.createElement('div'); 
             $divisor.setAttribute('class', 'aside-cart-item-divisor');
@@ -174,6 +175,19 @@
         });
 
         $cartTotalPrice.textContent = app.convertPrice($totalPrice);
+      },
+
+      listenDelete: function listenDelete(button) {
+        button.addEventListener('click', function() {
+          app.deleteItem(button);
+        }, false);
+      },
+
+      deleteItem: function deleteItem(button) {
+        var $cart = button.parentElement.parentElement;
+        var $item = button.parentElement;
+
+        $cart.removeChild($item);
       },
 
       showAppData: function showAppData() {
