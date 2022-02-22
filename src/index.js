@@ -91,9 +91,24 @@
         var $clearGame = doc.querySelector('[data-js="clear-game"]');
         var $addToCart = doc.querySelector('[data-js="add-to-cart"]');
 
+        $clearGame.addEventListener('click', function() {
+          app.clearGame();
+        }, false);
+
         $addToCart.addEventListener('click', function() {
           app.createGame();
         }, false);
+      },
+
+      clearGame: function clearGame() {
+        var $gameButtonsDiv = doc.querySelector('[data-js="game-buttons"]');
+        var $gameButtons = $gameButtonsDiv.childNodes;
+        
+        $game = [];
+
+        Array.prototype.map.call($gameButtons, function(button) {
+          button.removeAttribute('class');
+        });
       },
 
       createGame: function createGame() {
