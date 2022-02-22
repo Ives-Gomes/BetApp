@@ -91,6 +91,10 @@
         var $clearGame = doc.querySelector('[data-js="clear-game"]');
         var $addToCart = doc.querySelector('[data-js="add-to-cart"]');
 
+        $completeGame.addEventListener('click', function() {
+          app.completeGame();
+        }, false);
+
         $clearGame.addEventListener('click', function() {
           app.clearGame();
         }, false);
@@ -98,6 +102,53 @@
         $addToCart.addEventListener('click', function() {
           app.createGame();
         }, false);
+      },
+
+      completeGame: function completeGame() {
+        Array.prototype.map.call(data.types, function(game) {
+          if (game.type === $gameName) {
+            app.randomGame(game.max_number, game.range);
+
+            return;
+          }
+        });
+      },
+
+      randomGame: function randomGame(max_number, range) {
+        for (var i = 0; i < max_number; i++) {
+          var $random = Math.floor(Math.random() * (range - 1)) + 1;
+
+          var $alreadyExist = $game.some(function(number) {
+            return number === $random;
+          });
+
+          if ($alreadyExist) {
+            i--;
+
+            continue;
+          }
+
+          $game.push($random);
+        }
+
+        app.selectRandomGame();
+      },
+
+      selectRandomGame: function selectRandomGame() {
+        var $gameButtonsDiv = doc.querySelector('[data-js="game-buttons"]');
+        var $gameButtons = $gameButtonsDiv.childNodes;
+        
+        Array.prototype.map.call($gameButtons, function(button) {
+          var $buttonNumber = Number(button.textContent);
+
+          var $haveThisNumber = $game.some(function(number) {
+            return number === $buttonNumber;
+          });
+
+          if ($haveThisNumber) {
+            button.setAttribute('class', 'selected-game');
+          }
+        });
       },
 
       clearGame: function clearGame() {
