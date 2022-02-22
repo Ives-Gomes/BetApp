@@ -108,9 +108,10 @@ section strong {
   border: 2px solid #7f3992;
 }
 
-.section-buttons .lotofacil:focus {
+.section-buttons .lotofacil-focus {
   background-color: #7f3992;
   color: #fff;
+  border: 2px solid #7f3992;
 }
 
 .section-buttons .megasena {
@@ -119,9 +120,10 @@ section strong {
   border: 2px solid #01ac66;
 }
 
-.section-buttons .megasena:focus {
+.section-buttons .megasena-focus {
   background-color: #01ac66;
   color: #fff;
+  border: 2px solid #01ac66;
 }
 
 .section-buttons .lotomania {
@@ -130,9 +132,10 @@ section strong {
   border: 2px solid #f79c31;
 }
 
-.section-buttons .lotomania:focus {
+.section-buttons .lotomania-focus {
   background-color: #f79c31;
   color: #fff;
+  border: 2px solid #f79c31;
 }
 
 .section-footer {

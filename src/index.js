@@ -60,7 +60,27 @@
             $gameName = game.type;
           }
         });
+
+        app.focusGameButton(button);
       },
+
+      focusGameButton: function focusGameButton(button) {
+        var $gameButtons = doc.querySelectorAll('[data-js="game-button"]');
+        var $classButton = button.getAttribute('class');
+
+        button.setAttribute('class', $classButton.concat('-focus'));
+
+        Array.prototype.some.call($gameButtons, function(gameButton) {
+          var $classGameButton = gameButton.getAttribute('class');
+          var $index = $classGameButton.indexOf('-');
+
+          if (gameButton !== button && $index !== -1) {
+            var $className = $classGameButton.slice(0, $index);
+
+            gameButton.setAttribute('class', $className);  
+          }
+        });
+      },  
 
       gameButtonListener: function gameButtonListener(button, game) {
         button.addEventListener('click', function() {
