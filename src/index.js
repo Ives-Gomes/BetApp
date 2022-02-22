@@ -105,6 +105,8 @@
       },
 
       completeGame: function completeGame() {
+        app.clearGame();
+
         Array.prototype.map.call(data.types, function(game) {
           if (game.type === $gameName) {
             app.randomGame(game.max_number, game.range);
