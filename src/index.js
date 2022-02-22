@@ -4,12 +4,15 @@
   var app = (function() {
     var data;
     var $game = [];
+    var $gameName = '';
+    var $totalPrice = 0;
 
     return {
       init: function init() {
         app.getAppData();
         app.listenGameButtons();
         app.gameActions();
+        app.startCart();
       },
 
       getAppData: function getAppData() {
@@ -30,14 +33,16 @@
         });
       },
 
-      selectButton: function selectButton(button, buttons) {
-        var $gameName = doc.querySelector('[data-js="game-name"]');
+      selectButton: function selectButton(button) {
+        var $name = doc.querySelector('[data-js="game-name"]');
         var $gameDescription = doc.querySelector('[data-js="game-description"]');
         var $gameButtons = doc.querySelector('[data-js="game-buttons"]');
 
+        $game = [];
+
         data.types.map(function(game) {
           if (button.textContent.trim() === game.type) {
-            $gameName.textContent = game.type.toUpperCase();
+            $name.textContent = game.type.toUpperCase();
             $gameDescription.textContent = game.description;
 
             $gameButtons.innerHTML = '';
@@ -51,17 +56,19 @@
 
               $gameButtons.appendChild($buttonGameNumber);
             }
+
+            $gameName = game.type;
           }
         });
       },
 
       gameButtonListener: function gameButtonListener(button, game) {
         button.addEventListener('click', function() {
-          app.game(button.textContent, game);
+          app.game(button, button.textContent, game);
         }, false);
       },
 
-      game: function game(gameNumber, game) {
+      game: function game(button, gameNumber, game) {
         if ($game.length >= game.max_number) {
           return;
         }
@@ -73,6 +80,8 @@
         if ($alreadyExist) {
           return;
         }
+
+        button.setAttribute('class', 'selected-game');
 
         $game.push(gameNumber);
       },
@@ -88,59 +97,83 @@
       },
 
       createGame: function createGame() {
-        var $asideCartItem = doc.createElement('div');
-        $asideCartItem.setAttribute('class', 'aside-cart-item');
+        Array.prototype.map.call(data.types, function(game) {
+          if (game.type === $gameName) {
+            if (game.max_number > $game.length) {
+              return;
+            }
 
-        var $button = doc.createElement('button');
+            var $asideCartItem = doc.createElement('div');
+            $asideCartItem.setAttribute('class', 'aside-cart-item');
 
-        var $icon = doc.createElement('span');
-        $icon.setAttribute('class', 'material-icons');
-        $icon.textContent = 'delete';
+            var $button = doc.createElement('button');
 
-        $button.appendChild($icon);
+            var $icon = doc.createElement('span');
+            $icon.setAttribute('class', 'material-icons');
+            $icon.textContent = 'delete';
 
-        var $divisor = doc.createElement('div'); 
-        $divisor.setAttribute('class', 'aside-cart-item-divisor');
+            $button.appendChild($icon);
 
-        var $asideCartItemNumbers = doc.createElement('div');
-        $asideCartItemNumbers.setAttribute('class', 'aside-cart-item-numbers');
+            var $divisor = doc.createElement('div'); 
+            $divisor.setAttribute('class', 'aside-cart-item-divisor');
+            $divisor.setAttribute('data-js', 'divisor');
 
-        var $gameNumbers = doc.createElement('p');
-        $gameNumbers.setAttribute('data-js', 'game-numbers');
+            var $asideCartItemNumbers = doc.createElement('div');
+            $asideCartItemNumbers.setAttribute('class', 'aside-cart-item-numbers');
 
-        $asideCartItemNumbers.appendChild($gameNumbers);
+            var $gameNumbers = doc.createElement('p');
+            $gameNumbers.setAttribute('data-js', 'game-numbers');
 
-        var $asideCartItemGame = doc.createElement('div');
-        $asideCartItemGame.setAttribute('class', 'aside-cart-item-game');
-        var $gameName = doc.createElement('p');
-        $gameName.setAttribute('data-js', 'game-name');
-        var $gamePrice = doc.createElement('span');
-        $gamePrice.setAttribute('data-js', 'game-price');
+            $asideCartItemNumbers.appendChild($gameNumbers);
 
-        $asideCartItemGame.appendChild($gameName);
-        $asideCartItemGame.appendChild($gamePrice);
+            var $asideCartItemGame = doc.createElement('div');
+            $asideCartItemGame.setAttribute('class', 'aside-cart-item-game');
+            var $name = doc.createElement('p');
+            $name.setAttribute('data-js', 'game-name');
+            var $gamePrice = doc.createElement('span');
+            $gamePrice.setAttribute('data-js', 'game-price');
 
-        $asideCartItemNumbers.appendChild($asideCartItemGame);
+            $asideCartItemGame.appendChild($name);
+            $asideCartItemGame.appendChild($gamePrice);
 
-        $asideCartItem.appendChild($button);
-        $asideCartItem.appendChild($divisor);
-        $asideCartItem.appendChild($asideCartItemNumbers);
+            $asideCartItemNumbers.appendChild($asideCartItemGame);
 
-        app.showInCart($asideCartItem);
+            $asideCartItem.appendChild($button);
+            $asideCartItem.appendChild($divisor);
+            $asideCartItem.appendChild($asideCartItemNumbers);
+
+            app.showInCart($asideCartItem);
+            
+            return;
+          }
+        });
       },
 
       showInCart: function showInCart(element) {
         var $cartItem = doc.querySelector('[data-js="cart-item"]');
         $cartItem.appendChild(element);
 
-        var $gameNumbers = doc.querySelector('[data-js="game-numbers"]');
-        var $gameName = doc.querySelector('[data-js="game-name"]');
-        var $gamePrice = doc.querySelector('[data-js="game-price"]');
+        var $cartTotalPrice = doc.querySelector('[data-js="total-price"]');
 
-        // $gameNumbers.textContent = $game.join(', ');
+        var $gameNumbers = element.querySelector('[data-js="game-numbers"]');
+        var $name = element.querySelector('[data-js="game-name"]');
+        var $gamePrice = element.querySelector('[data-js="game-price"]');
+        var $divisor = element.querySelector('[data-js="divisor"]');
 
-        // $gameName.textContent = 'Lotofácil';
-        // $gamePrice.textContent = 'R$ 2,50';
+        $gameNumbers.textContent = $game.join(', ');
+        $name.textContent = $gameName;
+
+        Array.prototype.map.call(data.types, function(game) {
+          if ($gameName === game.type) {
+            $name.style.color = game.color;
+            $divisor.style.backgroundColor = game.color;
+
+            $gamePrice.textContent = app.convertPrice(game.price);
+            $totalPrice += game.price;
+          }
+        });
+
+        $cartTotalPrice.textContent = app.convertPrice($totalPrice);
       },
 
       showAppData: function showAppData() {
@@ -151,8 +184,23 @@
         data = JSON.parse(this.responseText);
       },
 
+      startCart: function startCart() {
+        var $cartTotalPrice = doc.querySelector('[data-js="total-price"]');
+
+        $cartTotalPrice.textContent = app.convertPrice($totalPrice);
+      },
+
       isReady: function isReady() {
         return this.readyState === 4 && this.status === 200;
+      },
+
+      convertPrice: function convertPrice(price) {
+        var formatter = new Intl.NumberFormat('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
+        });
+        
+        return formatter.format(price);
       },
     }
   })();

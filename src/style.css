@@ -171,9 +171,8 @@ article {
   margin-top: 10px;
 }
 
-.article-content button:focus {
-  background-color: #707070;
-  color: #fff;
+.selected-game {
+  background-color: #707070 !important;
 }
 
 .article-footer {
@@ -265,6 +264,10 @@ aside {
   padding: 20px;
 }
 
+.aside-content h4 {
+  margin-top: 20px;
+}
+
 .aside-content-header h3,
 .aside-content h4 {
   font-size: 25px;
@@ -278,8 +281,9 @@ aside {
 .aside-cart-item {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+
+  width: 100%;
 
   margin-top: 30px;
 }
