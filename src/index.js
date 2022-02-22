@@ -34,21 +34,19 @@
       },
 
       selectButton: function selectButton(button) {
-        var $name = doc.querySelector('[data-js="game-name"]');
-        var $gameDescription = doc.querySelector('[data-js="game-description"]');
         var $gameButtons = doc.querySelector('[data-js="game-buttons"]');
 
         $game = [];
 
         data.types.map(function(game) {
           if (button.textContent.trim() === game.type) {
-            $name.textContent = game.type.toUpperCase();
-            $gameDescription.textContent = game.description;
+            app.showGameInfos(game);
 
             $gameButtons.innerHTML = '';
 
             for (var i = 0; i < game.range; i++) {
               var $buttonGameNumber = doc.createElement('button');
+
               $buttonGameNumber.setAttribute('data-js', 'button-game-number');
               $buttonGameNumber.textContent = (i + 1);
 
@@ -124,6 +122,60 @@
         }, false);
       },
 
+      createGame: function createGame() {
+        Array.prototype.map.call(data.types, function(game) {
+          if (game.type === $gameName) {
+            if (game.max_number > $game.length) {
+              return;
+            }
+
+            var $asideCartItem = doc.createElement('div');
+            $asideCartItem.setAttribute('class', 'aside-cart-item');
+
+            var $button = doc.createElement('button');
+
+            var $icon = doc.createElement('span');
+            $icon.setAttribute('class', 'material-icons');
+            $icon.textContent = 'delete';
+
+            $button.appendChild($icon);
+            app.listenDelete($button);
+
+            var $divisor = doc.createElement('div'); 
+            $divisor.setAttribute('class', 'aside-cart-item-divisor');
+            $divisor.setAttribute('data-js', 'divisor');
+
+            var $asideCartItemNumbers = doc.createElement('div');
+            $asideCartItemNumbers.setAttribute('class', 'aside-cart-item-numbers');
+
+            var $gameNumbers = doc.createElement('p');
+            $gameNumbers.setAttribute('data-js', 'game-numbers');
+
+            $asideCartItemNumbers.appendChild($gameNumbers);
+
+            var $asideCartItemGame = doc.createElement('div');
+            $asideCartItemGame.setAttribute('class', 'aside-cart-item-game');
+            var $name = doc.createElement('p');
+            $name.setAttribute('data-js', 'game-name');
+            var $gamePrice = doc.createElement('span');
+            $gamePrice.setAttribute('data-js', 'game-price');
+
+            $asideCartItemGame.appendChild($name);
+            $asideCartItemGame.appendChild($gamePrice);
+
+            $asideCartItemNumbers.appendChild($asideCartItemGame);
+
+            $asideCartItem.appendChild($button);
+            $asideCartItem.appendChild($divisor);
+            $asideCartItem.appendChild($asideCartItemNumbers);
+
+            app.showInCart($asideCartItem);
+            
+            return;
+          }
+        });
+      },
+
       completeGame: function completeGame() {
         app.clearGame();
 
@@ -182,61 +234,7 @@
         Array.prototype.map.call($gameButtons, function(button) {
           button.removeAttribute('class');
         });
-      },
-
-      createGame: function createGame() {
-        Array.prototype.map.call(data.types, function(game) {
-          if (game.type === $gameName) {
-            if (game.max_number > $game.length) {
-              return;
-            }
-
-            var $asideCartItem = doc.createElement('div');
-            $asideCartItem.setAttribute('class', 'aside-cart-item');
-
-            var $button = doc.createElement('button');
-
-            var $icon = doc.createElement('span');
-            $icon.setAttribute('class', 'material-icons');
-            $icon.textContent = 'delete';
-
-            $button.appendChild($icon);
-            app.listenDelete($button);
-
-            var $divisor = doc.createElement('div'); 
-            $divisor.setAttribute('class', 'aside-cart-item-divisor');
-            $divisor.setAttribute('data-js', 'divisor');
-
-            var $asideCartItemNumbers = doc.createElement('div');
-            $asideCartItemNumbers.setAttribute('class', 'aside-cart-item-numbers');
-
-            var $gameNumbers = doc.createElement('p');
-            $gameNumbers.setAttribute('data-js', 'game-numbers');
-
-            $asideCartItemNumbers.appendChild($gameNumbers);
-
-            var $asideCartItemGame = doc.createElement('div');
-            $asideCartItemGame.setAttribute('class', 'aside-cart-item-game');
-            var $name = doc.createElement('p');
-            $name.setAttribute('data-js', 'game-name');
-            var $gamePrice = doc.createElement('span');
-            $gamePrice.setAttribute('data-js', 'game-price');
-
-            $asideCartItemGame.appendChild($name);
-            $asideCartItemGame.appendChild($gamePrice);
-
-            $asideCartItemNumbers.appendChild($asideCartItemGame);
-
-            $asideCartItem.appendChild($button);
-            $asideCartItem.appendChild($divisor);
-            $asideCartItem.appendChild($asideCartItemNumbers);
-
-            app.showInCart($asideCartItem);
-            
-            return;
-          }
-        });
-      },
+      }, 
 
       showInCart: function showInCart(element) {
         var $cartItem = doc.querySelector('[data-js="cart-item"]');
@@ -248,6 +246,8 @@
         var $name = element.querySelector('[data-js="game-name"]');
         var $gamePrice = element.querySelector('[data-js="game-price"]');
         var $divisor = element.querySelector('[data-js="divisor"]');
+
+        app.gameSort();
 
         $gameNumbers.textContent = $game.join(', ');
         $name.textContent = $gameName;
@@ -278,6 +278,14 @@
         $cart.removeChild($item);
       },
 
+      showGameInfos: function showGameInfos(game) {
+        var $name = doc.querySelector('[data-js="game-name"]');
+        var $gameDescription = doc.querySelector('[data-js="game-description"]');
+
+        $name.textContent = game.type.toUpperCase();
+        $gameDescription.textContent = game.description;
+      },
+
       showAppData: function showAppData() {
         if (!app.isReady.call(this)) {
           return;
@@ -294,6 +302,12 @@
 
       isReady: function isReady() {
         return this.readyState === 4 && this.status === 200;
+      },
+
+      gameSort: function gameSort() {
+        return $game.sort(function(n1, n2) {
+          return n1 - n2;
+        });
       },
 
       convertPrice: function convertPrice(price) {
