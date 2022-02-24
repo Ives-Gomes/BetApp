@@ -138,10 +138,6 @@ article {
   margin-top: 10px;
 }
 
-.selected-game {
-  background-color: #707070 !important;
-}
-
 .article-footer {
   display: flex;
   flex-direction: row;
@@ -174,7 +170,6 @@ article {
 }
 
 .article-cart {
-  width: 150px;
   height: 50px;
 
   display: flex;
@@ -192,6 +187,7 @@ article {
 
   cursor: pointer;
 
+  padding: 10px;
   margin-right: 20px;
 }
 
@@ -206,10 +202,8 @@ article {
 aside {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   width: 100%;
-  min-height: 300px;
   height: 100%;
 
   background-color: #fff;
@@ -225,7 +219,6 @@ aside {
   flex-direction: column;
   justify-content: space-between;
 
-  min-height: 300px;
   height: 100%;
 
   padding: 20px;
@@ -243,6 +236,15 @@ aside {
 .aside-content-header h3,
 .aside-content-header strong {
   color: #707070;
+}
+
+.cart-item {
+  max-height: 345px;
+  overflow-y: auto;
+}
+
+.cart-item p {
+  margin-top: 10px;
 }
 
 .aside-cart-item {

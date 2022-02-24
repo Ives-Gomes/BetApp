@@ -120,19 +120,32 @@
       },
 
       game: function game(button, gameNumber, game) {
-        if (currentGame.length >= game.max_number) {
+        if (currentGame.length >= game.max_number &&
+            button.getAttribute('class') !== 'game-button-selected') {
+          alert('A cartela está completa! Adicione ao carrinho ou remova um número.');
+
           return;
         }
 
-        let alreadyExist = currentGame.some(function(n) {
-          return n === gameNumber;
-        });
+        if (button.getAttribute('class') === 'game-button-selected') {
+          button.removeAttribute('class');
 
-        if (alreadyExist) {
+          button.removeAttribute('style');
+
+          currentGame.forEach(function(number) {
+            if (number === button.textContent) {
+              let index = currentGame.indexOf(button.textContent);
+
+              currentGame.splice(index, 1);
+            }
+          });
+          
           return;
         }
 
-        button.setAttribute('class', 'selected-game');
+        button.style.backgroundColor = game.color;
+
+        button.setAttribute('class', 'game-button-selected');
 
         currentGame.push(gameNumber);
       },
@@ -158,9 +171,31 @@
       createGame: function createGame() {
         Array.prototype.map.call(apiGamesData.types, function(game) {
           if (game.type === currentGameName) {
-            if (game.max_number > game.length) {
+            if (game.max_number > currentGame.length) {
+              let singularOrPlural = 's';
+
+              let numbersRemaining = game.max_number - currentGame.length;
+
+              if (numbersRemaining === 1) {
+                singularOrPlural = '';
+              }
+
+              alert(`Para adicionar ao carrinho escolha mais ${numbersRemaining} número${singularOrPlural}!`);
+
               return;
             }
+
+            let gameButtons = doc.querySelectorAll('[data-js="button-game-number"]');
+
+            Array.prototype.map.call(gameButtons, function(button) {
+              button.removeAttribute('class');
+  
+              button.removeAttribute('style');
+            });
+
+            let cartItemVoid = doc.querySelector('[data-js="cart-item-void"]');
+
+            cartItemVoid.textContent = '';
 
             let asideCartItem = doc.createElement('div');
             asideCartItem.setAttribute('class', 'aside-cart-item');
@@ -210,23 +245,27 @@
       },
 
       completeGame: function completeGame() {
-        app.clearGame();
-
         Array.prototype.map.call(apiGamesData.types, function(game) {
+          if (currentGame.length === game.max_number) {
+            alert('O jogo já está completo! Adicione ao carrinho ou limpe o jogo.')
+          }
+
           if (game.type === currentGameName) {
-            app.randomGame(game.max_number, game.range);
+            app.randomGame(game.max_number, game.range, game.color);
 
             return;
           }
         });
       },
 
-      randomGame: function randomGame(max_number, range) {
-        for (let i = 0; i < max_number; i++) {
+      randomGame: function randomGame(max_number, range, color) {
+        let randomNumberLoop = max_number - currentGame.length;
+
+        for (let i = 0; i < randomNumberLoop; i++) {
           let random = Math.floor(Math.random() * (range - 1)) + 1;
 
           let alreadyExist = currentGame.some(function(number) {
-            return number === random;
+            return number === String(random);
           });
 
           if (alreadyExist) {
@@ -235,25 +274,27 @@
             continue;
           }
 
-          currentGame.push(random);
+          currentGame.push(String(random));
         }
 
-        app.selectRandomGame();
+        app.selectRandomGame(color);
       },
 
-      selectRandomGame: function selectRandomGame() {
+      selectRandomGame: function selectRandomGame(color) {
         let gameButtonsDiv = doc.querySelector('[data-js="game-buttons"]');
         let gameButtons = gameButtonsDiv.childNodes;
         
         Array.prototype.map.call(gameButtons, function(button) {
-          let buttonNumber = Number(button.textContent);
+          let buttonNumber = button.textContent;
 
           let haveThisNumber = currentGame.some(function(number) {
             return number === buttonNumber;
           });
 
           if (haveThisNumber) {
-            button.setAttribute('class', 'selected-game');
+            button.style.backgroundColor = color;
+
+            button.setAttribute('class', 'game-button-selected');
           }
         });
       },
@@ -269,6 +310,8 @@
         currentGame = [];
 
         Array.prototype.map.call(gameButtons, function(button) {
+          button.removeAttribute('style');
+
           button.removeAttribute('class');
         });
       }, 
@@ -337,6 +380,14 @@
         cartTotalPrice.textContent = app.convertPrice(currentTotalPrice);
 
         cart.removeChild(item);
+
+        app.checkCartItemsLength(cart);
+      },
+
+      checkCartItemsLength: function checkCartItemsLength(cart) {
+        if (cart.childNodes.length === 3) {
+          app.startCart();
+        }
       },
 
       showGameInfos: function showGameInfos(game) {
@@ -358,7 +409,13 @@
       },
 
       startCart: function startCart() {
+        let cartItemVoid = doc.querySelector('[data-js="cart-item-void"]');
         let cartTotalPrice = doc.querySelector('[data-js="total-price"]');
+
+        let cartVoidPhrase = 
+          'Seu carrinho está vazio! Escolha um jogo, preencha-o e clique em adicionar ao carrinho.';
+
+        cartItemVoid.textContent = cartVoidPhrase;
 
         cartTotalPrice.textContent = app.convertPrice(currentTotalPrice);
       },
