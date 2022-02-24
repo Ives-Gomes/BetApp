@@ -267,6 +267,18 @@
           }
 
           if (game.type === currentGameName) {
+            if (currentGame.length > game.max_number) {
+              let singularOrPlural = 's';
+  
+              let numbersExceeded = currentGame.length - game.max_number;
+  
+              if (numbersExceeded === 1) {
+                singularOrPlural = '';
+              }
+  
+              alert(`O jogo está com muitos números! Remova ${numbersExceeded} número${singularOrPlural}`);
+            }
+            
             app.randomGame(game.max_number, game.range, game.color);
 
             return;
