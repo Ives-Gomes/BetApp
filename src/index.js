@@ -60,8 +60,6 @@
 
         let othersButtons = [];
 
-        currentGame = [];
-
         apiGamesData.types.map(function(game) {
           if (button.textContent.trim() === game.type) {
             app.focusGameButton(button, game.color);
@@ -78,6 +76,18 @@
               app.gameButtonListener(buttonGameNumber, game);
 
               gameButtons.appendChild(buttonGameNumber);
+
+              currentGame.map(function(gameNumber) {
+                if (gameNumber === String(i + 1)) {
+                  buttonGameNumber.style.backgroundColor = game.color;
+  
+                  buttonGameNumber.setAttribute('class', 'game-button-selected');
+                } else if (gameNumber > game.range) {
+                  let index = currentGame.indexOf(gameNumber);
+
+                  currentGame.splice(index, 1);
+                }
+              });
             }
 
             currentGameName = game.type;
@@ -171,6 +181,20 @@
       createGame: function createGame() {
         Array.prototype.map.call(apiGamesData.types, function(game) {
           if (game.type === currentGameName) {
+            if (currentGame.length > game.max_number) {
+              let singularOrPlural = 's';
+
+              let numbersExceeded = currentGame.length - game.max_number;
+
+              if (numbersExceeded === 1) {
+                singularOrPlural = '';
+              }
+
+              alert(`Muitos números selecionados! Remova ${numbersExceeded} número${singularOrPlural}.`)
+           
+              return;
+            }
+
             if (game.max_number > currentGame.length) {
               let singularOrPlural = 's';
 
@@ -184,14 +208,6 @@
 
               return;
             }
-
-            let gameButtons = doc.querySelectorAll('[data-js="button-game-number"]');
-
-            Array.prototype.map.call(gameButtons, function(button) {
-              button.removeAttribute('class');
-  
-              button.removeAttribute('style');
-            });
 
             let cartItemVoid = doc.querySelector('[data-js="cart-item-void"]');
 
@@ -318,8 +334,8 @@
 
       showInCart: function showInCart(element) {
         let cartTotalPrice = doc.querySelector('[data-js="total-price"]');
-
         let allGameNumbers = doc.querySelectorAll('[data-js="game-numbers"]');
+        let gameButtons = doc.querySelectorAll('[data-js="button-game-number"]');
 
         app.gameSort();
 
@@ -327,9 +343,17 @@
           return gameNumber.textContent === currentGame.join(', ').toString();
         });
 
-        if (gameAlreadyExistInCart || currentGame.length === 0) {
+        if (gameAlreadyExistInCart) {
+          alert('Esse jogo com os mesmos números já existe no carrinho!');
+
           return;
         }
+
+        Array.prototype.map.call(gameButtons, function(button) {
+          button.removeAttribute('class');
+
+          button.removeAttribute('style');
+        });
 
         let cartItem = doc.querySelector('[data-js="cart-item"]');
         cartItem.appendChild(element);
