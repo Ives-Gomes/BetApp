@@ -18,7 +18,7 @@
       "color": "#01AC66"
     },
     {
-      "type": "Lotomania",
+      "type": "Quina",
       "description": "Escolha 5 números dos 80 disponíveis na quina. 5, 4, 3 ou 2 acertos. São seis sorteios semanais e seis chances de ganhar.",
       "range": 80,
       "price": 2,

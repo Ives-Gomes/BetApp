@@ -102,42 +102,6 @@ section strong {
   margin-right: 20px;
 }
 
-.section-buttons .lotofacil {
-  background-color: #fff;
-  color: #7f3992;
-  border: 2px solid #7f3992;
-}
-
-.section-buttons .lotofacil-focus {
-  background-color: #7f3992;
-  color: #fff;
-  border: 2px solid #7f3992;
-}
-
-.section-buttons .megasena {
-  background-color: #fff;
-  color: #01ac66;
-  border: 2px solid #01ac66;
-}
-
-.section-buttons .megasena-focus {
-  background-color: #01ac66;
-  color: #fff;
-  border: 2px solid #01ac66;
-}
-
-.section-buttons .lotomania {
-  background-color: #fff;
-  color: #f79c31;
-  border: 2px solid #f79c31;
-}
-
-.section-buttons .lotomania-focus {
-  background-color: #f79c31;
-  color: #fff;
-  border: 2px solid #f79c31;
-}
-
 .section-footer {
   margin-top: 30px;
 }
